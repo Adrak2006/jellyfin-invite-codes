@@ -1,0 +1,17 @@
+# Ejemplo: junto a jfa-go en la misma red de Docker.
+services:
+  codigos:
+    build: .
+    container_name: codigos
+    restart: unless-stopped
+    ports:
+      - "8057:8057"
+    volumes:
+      - ./config:/config                   # codigos.json + sesiones.json
+      - /ruta/a/jfa-go/config.ini:/jfa/config.ini:ro   # o usa JFA_USUARIO/JFA_CLAVE
+    environment:
+      JFA_URL: http://jfa-go:8056          # jfa-go visto desde el contenedor
+      JFA_LAN: http://192.168.1.10:8056    # enlace que reciben los invitados en casa
+      JFA_EXTERNO: https://jfa.tudominio.com   # enlace para los de fuera (opcional)
+      JFA_PERFIL_NORMAL: "Usuario normal"  # nombres de perfil creados en jfa-go
+      JFA_PERFIL_ADMIN: "Administrador"
